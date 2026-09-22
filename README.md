@@ -46,6 +46,7 @@ The integration supports **6 languages** with comprehensive translations:
 | 🇨🇿 Czech     | `cs` | ✅ Complete | 348 parameters   |
 | 🇫🇷 French    | `fr` | ✅ Complete | 876 parameters   |
 | 🇺🇦 Ukrainian | `uk` | ✅ Complete | 855 parameters   |
+| 🇩🇪 German    | `de` | ✅ Complete | Full translation |
 
 ### 🏠 Supported Devices
 
