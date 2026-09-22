@@ -37,7 +37,7 @@ The **ecoNET300 Home Assistant Integration** allows local control and monitoring
 
 ### 🌐 Language Support
 
-The integration supports **6 languages** with comprehensive translations:
+The integration supports **7 languages** with comprehensive translations:
 
 | Language     | Code | Status      | Coverage         |
 | ------------ | ---- | ----------- | ---------------- |
