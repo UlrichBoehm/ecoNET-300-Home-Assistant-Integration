@@ -6,13 +6,45 @@ This guide helps you upgrade between versions of the ecoNET-300 Home Assistant I
 
 ## Version Compatibility Matrix
 
-| From Version | To Version | Migration Required | Notes                                     |
-| ------------ | ---------- | ------------------ | ----------------------------------------- |
-| v1.3.1       | v1.3.2     | No                 | New energy sensor after HA restart        |
+| From Version | To Version    | Migration Required | Notes                                      |
+| ------------ | ------------- | ------------------ | ------------------------------------------ |
+| v1.3.2       | v1.3.3        | Automations only   | `mode` / `transmission` state names (#247) |
+| v1.3.1       | v1.3.2        | No                 | New energy sensor after HA restart         |
 | v1.2.x       | v1.3.0     | No (cleanup only)  | Delete leftover *Unavailable* entities    |
 | v1.1.15      | v1.2.x     | No                 | Auto-discovery of new entities            |
 | v1.1.x       | v1.1.15    | No                 | Direct upgrade                            |
 | v0.3.3       | v1.x       | Recommended        | Re-add integration for full features      |
+
+---
+
+## Upgrading from v1.3.2 to v1.3.3 — mode / transmission state names
+
+No config migration is required, and entity IDs do not change. The `mode` and
+`transmission` sensors now share the official ecoNET `Mode{}` table with
+`statusCO` ([#247](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/247)),
+so some state values are different.
+
+| Raw `mode` | Old HA state      | New HA state   |
+| ---------- | ----------------- | -------------- |
+| 1          | `fire_up`         | `stop`         |
+| 2          | `operation`       | `fire_up`      |
+| 3          | `work`            | `operation`    |
+| 8          | `manual`          | `alarm`        |
+| 9          | `problem`         | `manual`       |
+| 11         | `chimney`         | `other`        |
+| 13         | `no_transmission` | `purge`        |
+
+Values `0`, `4`, `5`, `6`, `7`, `10`, and `12` keep their names. Mode `6` stays
+**cleaning** ([#208](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/208)).
+The states `work`, `problem`, `chimney`, and `no_transmission` no longer exist.
+
+### What to update
+
+1. Search your automations, scripts, and dashboards for `sensor.*_mode` and
+   `sensor.*_transmission`.
+2. Replace the old state strings using the table above. For example, a trigger on
+   `to: "work"` becomes `to: "operation"`.
+3. History recorded before the upgrade keeps the old state names.
 
 ---
 
