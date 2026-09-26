@@ -2,11 +2,27 @@
 
 ## [Unreleased]
 
-## [v1.3.3-beta.1] - 2026-09-02
+## [v1.3.3] - 2026-09-26
+
+Stable release of `1.3.3-beta.1`.
+
+### ⚠️ Breaking: `mode` / `transmission` state names
+
+The `mode` and `transmission` sensors now use the official ecoNET `Mode{}` table, so several state values change. Automations, scripts, and dashboards that compare these states must be updated. See the [Migration guide](docs/MIGRATION.md#upgrading-from-v132-to-v133--mode--transmission-state-names).
+
+| Raw value | Old state         | New state   |
+| --------- | ----------------- | ----------- |
+| 1         | `fire_up`         | `stop`      |
+| 2         | `operation`       | `fire_up`   |
+| 3         | `work`            | `operation` |
+| 8         | `manual`          | `alarm`     |
+| 9         | `problem`         | `manual`    |
+| 11        | `chimney`         | `other`     |
+| 13        | `no_transmission` | `purge`     |
 
 ### Fixed
 
-- **Boiler `mode` / `transmission` states match the ecoNET Mode table ([#247](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/247))**: `mode: 1` is **Stop**, not Fire up. `mode` and `transmission` now reuse `SENSOR_STATUS_CO_MAPPING` (official cloud `Mode{}`). Mode `6` stays **Cleaning** ([#208](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/208)). Automations that keyed off the old shifted names (`1` = fire_up, `2` = operation, …) need updating.
+- **Boiler `mode` / `transmission` states match the ecoNET Mode table ([#247](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/247))**: `mode: 1` is **Stop**, not Fire up. `mode` and `transmission` now reuse `SENSOR_STATUS_CO_MAPPING` (official cloud `Mode{}`), the same table as `statusCO`. Mode `6` stays **Cleaning** ([#208](https://github.com/jontofront/ecoNET-300-Home-Assistant-Integration/issues/208)). Values 14–26 (e.g. *Check flame*, *Calibration*, *Afterburning*) are now recognized instead of showing *Unknown*.
 
 ### Tests
 
